@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1d3a9e">
+<link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Torneo Oratorio San Michele</title>
+<style>
+:root{--b:#1d3a9e;--bd:#122670;--g:#c9a227;--gl:#f6edc8;--bg:#f4f6fb;--t:#16204a;--m:#6b7394;--l:#dde2f0}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--t);padding-bottom:env(safe-area-inset-bottom)}
+h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif}
+header{background:var(--b);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;border-bottom:3px solid var(--g);display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:5}
+header img{height:42px;background:#fff;border-radius:8px;padding:2px}
+header .tt{flex:1;min-width:0}header h1{font-size:1.05rem;line-height:1.1}
+header button.cat{background:none;border:0;color:var(--gl);font-size:.85rem;padding:0;cursor:pointer;text-decoration:underline}
+.ic{width:42px;height:42px;border-radius:50%;border:2px solid var(--g);background:var(--bd);color:#fff;display:grid;place-items:center;cursor:pointer}
+.ic.on{background:var(--g);color:var(--bd)}
+main{max-width:760px;margin:0 auto;padding:12px 12px 80px}
+nav.tabs{display:flex;background:#fff;border-bottom:1px solid var(--l);position:sticky;top:67px;z-index:4}
+nav.tabs button{flex:1;padding:13px;border:0;background:none;font:600 1rem inherit;color:var(--m);border-bottom:3px solid transparent;cursor:pointer;font-family:inherit}
+nav.tabs button.on{color:var(--b);border-color:var(--g)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px}
+.chip{white-space:nowrap;border:1px solid var(--b);color:var(--b);background:#fff;border-radius:99px;padding:7px 14px;font:inherit;cursor:pointer}
+.chip.on{background:var(--b);color:#fff}
+.day{font-family:Georgia,serif;font-size:1.05rem;color:var(--b);margin:16px 2px 8px;text-transform:capitalize}
+.match{background:#fff;border:1px solid var(--l);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.match .meta{font-size:.8rem;color:var(--m);display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}
+.match .meta b{color:var(--b)}
+.row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+.tm{display:flex;align-items:center;gap:8px;font-weight:600;min-width:0}.tm span{overflow:hidden;text-overflow:ellipsis}
+.tm.r{justify-content:flex-end;text-align:right}
+.sc{font-family:Georgia,serif;font-size:1.3rem;font-weight:700;color:var(--b);min-width:64px;text-align:center}
+.sc.no{font-size:.9rem;color:var(--m);font-weight:400}
+.lg{width:30px;height:30px;border-radius:50%;object-fit:cover;background:var(--gl);border:1px solid var(--g);flex:none;display:grid;place-items:center;font-size:.75rem;font-weight:700;color:var(--bd)}
+.home{color:var(--g)}
+.tbl{background:#fff;border:1px solid var(--l);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.tbl h3{background:var(--b);color:#fff;padding:9px 12px;font-size:1rem}
+.tbl .sc2{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{padding:8px 5px;text-align:center}th{color:var(--m);font-weight:600;border-bottom:1px solid var(--l)}
+td:first-child,th:first-child{text-align:left;padding-left:10px}td.n{text-align:left;font-weight:600;white-space:nowrap}
+td.n .tm{font-weight:600}
+tr.q td:first-child{box-shadow:inset 4px 0 var(--g)}td.pt{font-weight:800;color:var(--b)}
+.empty{text-align:center;color:var(--m);padding:40px 16px}
+.btn{background:var(--b);color:#fff;border:0;border-radius:10px;padding:11px 16px;font:600 .95rem inherit;font-family:inherit;cursor:pointer}
+.btn.g{background:var(--g);color:var(--bd)}.btn.o{background:#fff;color:var(--b);border:1px solid var(--b)}.btn.r{background:#b3261e}.btn.s{padding:7px 11px;font-size:.85rem}
+.ov{position:fixed;inset:0;background:rgba(18,38,112,.55);display:grid;place-items:center;z-index:20;padding:16px}
+.mod{background:#fff;border-radius:16px;padding:22px;max-width:420px;width:100%;max-height:88vh;overflow:auto;border-top:5px solid var(--g)}
+.mod.w{text-align:center}.mod.w img{height:130px;margin-bottom:8px}
+.mod h2{color:var(--b);margin-bottom:8px}.mod p{line-height:1.5;margin-bottom:14px}
+.opts{display:grid;gap:8px}
+label{display:block;font-size:.85rem;color:var(--m);margin:10px 0 3px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--l);border-radius:8px;font:inherit;background:#fff;color:var(--t)}
+.card{background:#fff;border:1px solid var(--l);border-radius:12px;padding:14px;margin-bottom:12px}
+.card h3{color:var(--b);margin-bottom:8px}.flex{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--l)}.li:last-child{border:0}.li .tm{flex:1}
+.hint{font-size:.82rem;color:var(--m);line-height:1.4;margin:6px 0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--bd);color:#fff;padding:10px 18px;border-radius:99px;z-index:30}
+footer{text-align:center;color:var(--m);font-size:.78rem;padding:20px}
+:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+</style></head><body>
+<div id="app"></div><div id="modal"></div>
+<script>
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LS='sanmichele_db';
+const blank=()=>({v:1,admin:null,fields:['Campo 1','Campo 2','Campo sintetico'],welcome:"L'Oratorio San Michele vi dà il benvenuto! Vi ringraziamo per aver partecipato e vi auguriamo un buon torneo a tutti: giocate con passione e divertitevi.",cats:[]});
+let db=blank(),admin=sessionStorage.getItem('adm')==='1',catId=null,tab='partite',grp='all',adm='squadre';
+const cat=()=>db.cats.find(c=>c.id===catId);
+const save=()=>{localStorage.setItem(LS,JSON.stringify(db))};
+const toast=t=>{const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),2200)};
+async function hash(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('sm::'+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return btoa(s)}}
+async function init(){
+ let remote=null,local=null;
+ try{const r=await fetch('data.json?'+Date.now());const j=await r.json();if(j&&j.v)remote=j}catch(e){}
+ try{local=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}
+ db=(admin?local||remote:remote||local)||blank();
+ if(!db.cats.length||!db.cats.some(c=>c.id===catId))catId=db.cats[0]?.id||null;
+ if(!sessionStorage.getItem('welc')){render();welcome()}else render();
+ if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+function modal(h,w){$('#modal').innerHTML=`<div class="ov" onclick="if(event.target==this)closeM()"><div class="mod ${w?'w':''}">${h}</div></div>`}
+const closeM=()=>$('#modal').innerHTML='';
+function welcome(){
+ let o=db.cats.length>1?`<p><b>Quale categoria vuoi seguire?</b></p><div class="opts">${db.cats.map(c=>`<button class="btn" onclick="pick('${c.id}')">${esc(c.name)}</button>`).join('')}</div>`
+ :db.cats.length==1?`<button class="btn g" onclick="pick('${db.cats[0].id}')">Entra</button>`
+ :`<p class="hint">Il torneo è in fase di organizzazione: presto trovi qui squadre, gironi e calendario.</p><button class="btn g" onclick="pick(null)">Entra</button>`;
+ modal(`<img src="icons/logo.png" alt=""><h2>Benvenuti al Torneo dell'Oratorio San Michele</h2><p>${esc(db.welcome)}</p>${o}`,1)}
+function pick(id){sessionStorage.setItem('welc','1');if(id)catId=id;grp='all';closeM();render()}
+function pickCat(){sessionStorage.removeItem('welc');welcome()}
+// ---- logica torneo
+const T=(c,id)=>c.teams.find(t=>t.id===id);
+const lg=t=>t?(t.logo?`<img class="lg" src="${t.logo}" alt="">`:`<span class="lg">${esc(t.name.slice(0,2).toUpperCase())}</span>`):'<span class="lg">?</span>';
+const done=m=>m.hg!==null&&m.hg!==''&&m.ag!==null&&m.ag!==''&&m.hg!=null&&m.ag!=null;
+function standings(c,g){
+ const r={};g.ids.forEach(id=>r[id]={id,PT:0,GF:0,GS:0,V:0,N:0,P:0,G:0});
+ c.matches.filter(m=>m.phase=='G'&&m.group==g.name&&done(m)).forEach(m=>{const a=r[m.home],b=r[m.away];if(!a||!b)return;const h=+m.hg,o=+m.ag;
+  a.G++;b.G++;a.GF+=h;a.GS+=o;b.GF+=o;b.GS+=h;
+  if(h>o){a.V++;a.PT+=3;b.P++}else if(h<o){b.V++;b.PT+=3;a.P++}else{a.N++;b.N++;a.PT++;b.PT++}});
+ return Object.values(r).map(x=>({...x,DR:x.GF-x.GS})).sort((x,y)=>y.PT-x.PT||y.DR-x.DR||y.GF-x.GF||(T(c,x.id)?.name||'').localeCompare(T(c,y.id)?.name||''))}
+const win=m=>{if(!done(m))return null;const h=+m.hg,a=+m.ag;if(h>a)return m.home;if(a>h)return m.away;return m.pen=='h'?m.home:m.pen=='a'?m.away:null};
+const lose=m=>{const w=win(m);return w?(w==m.home?m.away:m.home):null};
+function genGroups(c){
+ c.matches=c.matches.filter(m=>m.phase!='G'&&false||m.phase!='G');
+ c.groups.forEach(g=>{for(let i=0;i<g.ids.length;i++)for(let j=i+1;j<g.ids.length;j++)c.matches.push({id:uid(),phase:'G',group:g.name,home:g.ids[i],away:g.ids[j],date:'',time:'',field:'',hg:null,ag:null})});
+ c.matches=c.matches.filter(m=>m.phase=='G')}
+function genKO(c){
+ const q=c.q||2,L=[];
+ for(let p=0;p<q;p++)c.groups.forEach(g=>{const s=standings(c,g)[p];if(s)L.push(s.id)});
+ c.matches=c.matches.filter(m=>m.phase=='G');
+ const mk=(ph,label,h,a)=>c.matches.push({id:uid(),phase:ph,label,home:h,away:a,date:'',time:'',field:'',hg:null,ag:null});
+ if(L.length==2)mk('F','Finale 1°/2° posto',L[0],L[1]);
+ else if(L.length==4){
+  if(c.groups.length==2&&q==2){mk('SF','Semifinale 1 (1° A - 2° B)',L[0],L[3]);mk('SF','Semifinale 2 (1° B - 2° A)',L[1],L[2])}
+  else{mk('SF','Semifinale 1',L[0],L[3]);mk('SF','Semifinale 2',L[1],L[2])}}
+ else return toast('Le squadre qualificate devono essere 2 o 4 (cambia le impostazioni)');
+ save();render()}
+function genFinals(c){
+ const s=c.matches.filter(m=>m.phase=='SF');
+ if(s.length<2||!s.every(m=>win(m)))return toast('Inserisci prima i risultati delle semifinali (con rigori se pari)');
+ c.matches=c.matches.filter(m=>m.phase!='F');
+ const mk=(label,h,a)=>c.matches.push({id:uid(),phase:'F',label,home:h,away:a,date:'',time:'',field:'',hg:null,ag:null});
+ mk('Finale 1°/2° posto',win(s[0]),win(s[1]));mk('Finale 3°/4° posto',lose(s[0]),lose(s[1]));save();render()}
+// ---- render pubblico
+function render(){
+ const c=cat();
+ $('#app').innerHTML=`<header><img src="icons/logo.png" alt="San Michele"><div class="tt"><h1>Oratorio San Michele</h1>${c?`<button class="cat" onclick="pickCat()">${esc(c.name)} · cambia</button>`:'<span style="font-size:.85rem;color:var(--gl)">Torneo in casa</span>'}</div>
+ <button class="ic ${admin?'on':''}" aria-label="Area personale" onclick="userBtn()"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4.2"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></button></header>
+ ${admin&&adm!=='_'?'':''}<nav class="tabs">${['partite','classifica',...(admin?['gestione']:[])].map(t=>`<button class="${tab==t?'on':''}" onclick="tab='${t}';render()">${t=='gestione'?'⚙ Gestione':t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</nav>
+ <main>${tab=='gestione'&&admin?manage():!c?`<div class="empty"><h2 class="serif">Torneo in preparazione</h2><p>Categorie e squadre arriveranno presto.</p></div>`:tab=='partite'?matchesView(c):tableView(c)}</main><footer>Oratorio San Michele</footer>`}
+function chips(c,withKO){const o=['all',...c.groups.map(g=>g.name),...(withKO&&c.matches.some(m=>m.phase!='G')?['KO']:[])];
+ if(!withKO)o.shift();if(!o.includes(grp))grp=o[0];
+ return`<div class="chips">${o.map(x=>`<button class="chip ${grp==x?'on':''}" onclick="grp='${x}';render()">${x=='all'?'Tutte':x=='KO'?'Fase finale':'Girone '+x}</button>`).join('')}</div>`}
+function mcard(c,m){const h=T(c,m.home),a=T(c,m.away),d=done(m);
+ return`<div class="match" ${admin?`onclick="editMatch('${m.id}')" style="cursor:pointer"`:''}><div class="meta"><span><b>${m.phase=='G'?'Girone '+m.group:esc(m.label)}</b></span><span>${m.time?esc(m.time):'Orario da definire'}${m.field?' · '+esc(m.field):''}</span></div>
+ <div class="row"><div class="tm">${lg(h)}<span>${esc(h?.name||'?')}</span></div><div class="sc ${d?'':'no'}">${d?`${m.hg} - ${m.ag}`:'vs'}</div><div class="tm r"><span>${esc(a?.name||'?')}</span>${lg(a)}</div></div>
+ ${d&&m.hg==m.ag&&m.pen?`<div class="hint" style="text-align:center">Ai rigori vince ${esc(T(c,win(m))?.name)}</div>`:''}</div>`}
+function matchesView(c){
+ if(!c.matches.length)return`<div class="empty">Il calendario non è ancora disponibile.</div>`;
+ let ms=c.matches.filter(m=>grp=='all'||(grp=='KO'?m.phase!='G':m.group==grp&&m.phase=='G'));
+ const days={};ms.forEach(m=>(days[m.date||'']=days[m.date||'']||[]).push(m));
+ return chips(c,true)+Object.keys(days).sort((a,b)=>!a?1:!b?-1:a.localeCompare(b)).map(d=>`<div class="day">${d?new Date(d+'T12:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'}):'Data da definire'}</div>`+days[d].sort((x,y)=>(x.time||'99').localeCompare(y.time||'99')).map(m=>mcard(c,m)).join('')).join('')}
+function tableView(c){
+ if(!c.groups.length)return`<div class="empty">I gironi non sono ancora stati creati.</div>`;
+ const gs=c.groups.length>1?chips(c,false):'',list=c.groups.filter(g=>grp=='all'||grp=='KO'||g.name==grp);
+ return gs+list.map(g=>`<div class="tbl"><h3>Girone ${esc(g.name)}</h3><div class="sc2"><table><tr><th>Squadra</th><th>PT</th><th>G</th><th>V</th><th>N</th><th>P</th><th>GF</th><th>GS</th><th>DR</th></tr>
+ ${standings(c,g).map((s,i)=>`<tr class="${i<(c.q||2)?'q':''}"><td class="n"><div class="tm">${lg(T(c,s.id))}<span>${esc(T(c,s.id)?.name)}</span></div></td><td class="pt">${s.PT}</td><td>${s.G}</td><td>${s.V}</td><td>${s.N}</td><td>${s.P}</td><td>${s.GF}</td><td>${s.GS}</td><td>${s.DR>0?'+':''}${s.DR}</td></tr>`).join('')}</table></div></div>`).join('')+`<p class="hint">Il segno oro indica le squadre che passano il turno. PT punti · G giocate · V vinte · N pareggiate · P perse · GF gol fatti · GS gol subiti · DR differenza reti.</p>`}
+// ---- accesso
+function userBtn(){if(admin){tab='gestione';render();return}
+ if(!db.admin)modal(`<h2>Crea l'account amministratore</h2><p class="hint">Si fa una volta sola. Dopo, solo l'amministratore potrà modificarlo.</p><label>Nome utente</label><input id="u" autocomplete="username"><label>Password (min. 6 caratteri)</label><input id="p" type="password" autocomplete="new-password"><br><br><div class="flex"><button class="btn" onclick="setup()">Crea account</button><button class="btn o" onclick="closeM()">Annulla</button></div>`);
+ else modal(`<h2>Area personale</h2><label>Nome utente</label><input id="u" autocomplete="username"><label>Password</label><input id="p" type="password" autocomplete="current-password"><br><br><div class="flex"><button class="btn" onclick="login()">Accedi</button><button class="btn o" onclick="closeM()">Annulla</button></div>`)}
+async function setup(){const u=$('#u').value.trim(),p=$('#p').value;if(!u||p.length<6)return toast('Inserisci utente e password di almeno 6 caratteri');
+ let local=null;try{local=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}
+ db.admin={u,h:await hash(p)};save();enter()}
+async function login(){const a=db.admin;let ok=a&&$('#u').value.trim()===a.u&&await hash($('#p').value)===a.h;
+ if(!ok)return toast('Nome utente o password errati');
+ let local=null;try{local=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}if(local&&local.admin&&local.admin.u===a.u)db=local;enter()}
+function enter(){admin=true;sessionStorage.setItem('adm','1');closeM();tab='gestione';if(!catId&&db.cats[0])catId=db.cats[0].id;render()}
+function logout(){admin=false;sessionStorage.removeItem('adm');tab='partite';init()}
+// ---- gestione
+function manage(){
+ const c=cat(),S=['squadre','gironi','partite','categorie','impostazioni'];
+ return`<div class="chips">${S.map(s=>`<button class="chip ${adm==s?'on':''}" onclick="adm='${s}';render()">${s[0].toUpperCase()+s.slice(1)}</button>`).join('')}</div>
+ ${db.cats.length&&adm!='categorie'&&adm!='impostazioni'?`<label>Categoria in modifica</label><select onchange="catId=this.value;render()">${db.cats.map(x=>`<option value="${x.id}" ${x.id==catId?'selected':''}>${esc(x.name)}</option>`).join('')}</select><br><br>`:''}
+ ${adm=='categorie'?mCats():adm=='impostazioni'?mSet():!c?`<div class="empty">Crea prima una categoria (sezione Categorie).</div>`:adm=='squadre'?mTeams(c):adm=='gironi'?mGroups(c):mMatches(c)}`}
+function mCats(){return`<div class="card"><h3>Categorie del torneo</h3><div class="flex"><input id="nc" placeholder="Es. Under 12, Open…" style="flex:1"><button class="btn" onclick="addCat()">Aggiungi</button></div>
+ ${db.cats.map(c=>`<div class="li"><div class="tm"><span>${esc(c.name)}</span></div><button class="btn o s" onclick="renCat('${c.id}')">Rinomina</button><button class="btn r s" onclick="delCat('${c.id}')">Elimina</button></div>`).join('')}</div>`}
+function addCat(){const n=$('#nc').value.trim();if(!n)return;const c={id:uid(),name:n,teams:[],groups:[],matches:[],ng:2,q:2};db.cats.push(c);catId=c.id;save();render()}
+function renCat(id){const c=db.cats.find(x=>x.id==id),n=prompt('Nuovo nome',c.name);if(n){c.name=n;save();render()}}
+function delCat(id){if(confirm('Eliminare la categoria con tutte le sue squadre e partite?')){db.cats=db.cats.filter(x=>x.id!=id);catId=db.cats[0]?.id||null;save();render()}}
+function mTeams(c){return`<div class="card"><h3>Nuova squadra</h3><label>Nome squadra</label><input id="tn"><label>Logo (facoltativo)</label><input id="tl" type="file" accept="image/*"><label><input id="th" type="checkbox" style="width:auto"> Squadra di casa (Oratorio San Michele)</label><br><button class="btn" onclick="addTeam()">Aggiungi squadra</button></div>
+ <div class="card"><h3>Squadre (${c.teams.length})</h3>${c.teams.map(t=>`<div class="li"><div class="tm">${lg(t)}<span>${esc(t.name)} ${t.home?'<span class="home">★ casa</span>':''}</span></div><button class="btn o s" onclick="editTeam('${t.id}')">Modifica</button><button class="btn r s" onclick="delTeam('${t.id}')">X</button></div>`).join('')||'<p class="hint">Nessuna squadra.</p>'}</div>`}
+function resize(f){return new Promise(r=>{if(!f)return r(null);const i=new Image,u=URL.createObjectURL(f);i.onload=()=>{const k=Math.min(1,128/Math.max(i.width,i.height)),cv=document.createElement('canvas');cv.width=i.width*k;cv.height=i.height*k;cv.getContext('2d').drawImage(i,0,0,cv.width,cv.height);r(cv.toDataURL('image/png'))};i.onerror=()=>r(null);i.src=u})}
+async function addTeam(){const n=$('#tn').value.trim();if(!n)return toast('Scrivi il nome');cat().teams.push({id:uid(),name:n,logo:await resize($('#tl').files[0]),home:$('#th').checked});save();render()}
+function editTeam(id){const t=T(cat(),id);modal(`<h2>Modifica squadra</h2><label>Nome</label><input id="en" value="${esc(t.name)}"><label>Nuovo logo</label><input id="el" type="file" accept="image/*"><label><input id="eh" type="checkbox" style="width:auto" ${t.home?'checked':''}> Squadra di casa</label><br><div class="flex"><button class="btn" onclick="saveTeam('${id}')">Salva</button><button class="btn o" onclick="closeM()">Chiudi</button></div>`)}
+async function saveTeam(id){const t=T(cat(),id);t.name=$('#en').value.trim()||t.name;const l=await resize($('#el').files[0]);if(l)t.logo=l;t.home=$('#eh').checked;save();closeM();render()}
+function delTeam(id){if(!confirm('Eliminare la squadra?'))return;const c=cat();c.teams=c.teams.filter(t=>t.id!=id);c.groups.forEach(g=>g.ids=g.ids.filter(x=>x!=id));c.matches=c.matches.filter(m=>m.home!=id&&m.away!=id);save();render()}
+const GN=i=>String.fromCharCode(65+i);
+function setGroups(c,assign){c.ng=+$('#ng').value;c.q=+$('#qq').value;const n=c.ng;
+ let ids=c.teams.map(t=>t.id);if(assign=='rnd')ids.sort(()=>Math.random()-.5);
+ const old=Object.fromEntries(c.groups.flatMap(g=>g.ids.map(i=>[i,g.name])));
+ c.groups=Array.from({length:n},(_,i)=>({name:GN(i),ids:[]}));
+ ids.forEach((id,i)=>{const k=assign=='rnd'?i%n:Math.max(0,c.groups.findIndex(g=>g.name==old[id]));c.groups[k<0?0:k].ids.push(id)});
+ c.matches=[];save();render()}
+function mGroups(c){
+ return`<div class="card"><h3>Modalità del torneo</h3><div class="flex"><div style="flex:1"><label>Numero di gironi</label><select id="ng">${[1,2,3,4,5,6].map(n=>`<option ${n==(c.ng||2)?'selected':''}>${n}</option>`).join('')}</select></div><div style="flex:1"><label>Qualificate per girone</label><select id="qq">${[1,2,3,4].map(n=>`<option ${n==(c.q||2)?'selected':''}>${n}</option>`).join('')}</select></div></div>
+ <p class="hint">Fase finale: con 2 qualificate totali si gioca la finale; con 4 si giocano due semifinali e poi finale 1°/2° e finale 3°/4°. Con 2 gironi e 2 qualificate: 1ª A contro 2ª B e viceversa.</p>
+ <div class="flex"><button class="btn g" onclick="setGroups(cat(),'rnd')">🎲 Gironi casuali</button><button class="btn o" onclick="setGroups(cat(),'man')">Gironi manuali</button></div><p class="hint">Attenzione: ricreare i gironi cancella il calendario.</p></div>
+ ${c.groups.length?`<div class="card"><h3>Composizione gironi</h3>${c.teams.map(t=>{const cur=c.groups.find(g=>g.ids.includes(t.id))?.name;return`<div class="li"><div class="tm">${lg(t)}<span>${esc(t.name)}</span></div><select style="width:110px" onchange="moveTeam('${t.id}',this.value)">${c.groups.map(g=>`<option value="${g.name}" ${g.name==cur?'selected':''}>Girone ${g.name}</option>`).join('')}</select></div>`}).join('')}
+ <br><button class="btn" onclick="if(confirm('Creare il calendario dei gironi? Le partite esistenti verranno sostituite.')){genGroups(cat());save();adm='partite';render()}">Genera calendario gironi</button></div>`:''}`}
+function moveTeam(id,g){const c=cat();c.groups.forEach(x=>x.ids=x.ids.filter(i=>i!=id));c.groups.find(x=>x.name==g).ids.push(id);save()}
+function mMatches(c){
+ const hasSF=c.matches.some(m=>m.phase=='SF');
+ return`<div class="card"><h3>Fase finale</h3><div class="flex"><button class="btn g" onclick="if(confirm('Creare la fase finale dalle classifiche attuali?'))genKO(cat())">Genera fase finale</button>${hasSF?`<button class="btn" onclick="genFinals(cat())">Genera finali</button>`:''}</div><p class="hint">Tocca una partita per inserire data, orario, campo e risultato. In caso di parità in semifinale scegli chi vince ai rigori.</p></div>
+ ${c.matches.length?c.matches.map(m=>mcard(c,m)).join(''):'<div class="empty">Nessuna partita. Crea i gironi e genera il calendario.</div>'}`}
+function editMatch(id){const c=cat(),m=c.matches.find(x=>x.id==id),h=T(c,m.home),a=T(c,m.away);
+ const fl=[...db.fields];if(m.field&&!fl.includes(m.field))fl.push(m.field);
+ modal(`<h2>${esc(h?.name)} - ${esc(a?.name)}</h2><label>Data</label><input id="md" type="date" value="${m.date||''}"><label>Orario</label><input id="mt" type="time" value="${m.time||''}"><label>Campo</label><select id="mf"><option value="">Da definire</option>${fl.map(f=>`<option ${f==m.field?'selected':''}>${esc(f)}</option>`).join('')}</select>
+ <label>Risultato (lascia vuoto se non giocata)</label><div class="flex"><input id="mh" type="number" min="0" value="${m.hg??''}" style="flex:1"><b>-</b><input id="ma" type="number" min="0" value="${m.ag??''}" style="flex:1"></div>
+ ${m.phase!='G'?`<label>Rigori (se pari)</label><select id="mp"><option value="">-</option><option value="h" ${m.pen=='h'?'selected':''}>Vince ${esc(h?.name)}</option><option value="a" ${m.pen=='a'?'selected':''}>Vince ${esc(a?.name)}</option></select>`:''}
+ <br><div class="flex"><button class="btn" onclick="saveMatch('${id}')">Salva</button><button class="btn o" onclick="closeM()">Chiudi</button><button class="btn r s" onclick="delMatch('${id}')">Elimina</button></div>`)}
+function saveMatch(id){const m=cat().matches.find(x=>x.id==id),v=k=>$(k).value;m.date=v('#md');m.time=v('#mt');m.field=v('#mf');
+ m.hg=v('#mh')===''?null:+v('#mh');m.ag=v('#ma')===''?null:+v('#ma');m.pen=$('#mp')?v('#mp'):'';save();closeM();render()}
+function delMatch(id){if(confirm('Eliminare la partita?')){const c=cat();c.matches=c.matches.filter(x=>x.id!=id);save();closeM();render()}}
+function mSet(){return`<div class="card"><h3>Nomi dei campi</h3><p class="hint">Un campo per riga.</p><textarea id="sf" rows="4">${esc(db.fields.join('\n'))}</textarea><br><br><button class="btn" onclick="db.fields=$('#sf').value.split('\\n').map(x=>x.trim()).filter(Boolean);save();toast('Salvato')">Salva campi</button></div>
+ <div class="card"><h3>Messaggio di benvenuto</h3><textarea id="sw" rows="4">${esc(db.welcome)}</textarea><br><br><button class="btn" onclick="db.welcome=$('#sw').value;save();toast('Salvato')">Salva messaggio</button></div>
+ <div class="card"><h3>Pubblica i dati</h3><p class="hint">I dati si modificano su questo dispositivo. Per farli vedere a tutti, scarica il file <b>data.json</b> e sostituiscilo nel repository GitHub (vedi LEGGIMI.txt). Puoi anche ripristinare un backup.</p><div class="flex"><button class="btn g" onclick="exp()">Scarica data.json</button><button class="btn o" onclick="$('#imp').click()">Importa file</button></div><input id="imp" type="file" accept=".json" hidden onchange="imp(this.files[0])"></div>
+ <div class="card"><button class="btn o" onclick="logout()">Esci dall'area personale</button></div>`}
+function exp(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db)],{type:'application/json'}));a.download='data.json';a.click()}
+function imp(f){if(!f)return;f.text().then(t=>{try{const j=JSON.parse(t);if(!j.v)throw 0;if(db.admin&&j.admin&&j.admin.u!==db.admin.u&&!confirm('Il file contiene un altro amministratore. Importare comunque?'))return;db=j;save();render();toast('Importato')}catch(e){toast('File non valido')}})}
+init();
+</script></body></html>
