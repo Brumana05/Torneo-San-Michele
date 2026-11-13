@@ -10,3 +10,10 @@ COME FUNZIONANO I DATI (importante)
 - La prima volta crei l'account admin (tocca l'omino). Scarica e carica subito data.json,
   così l'account vale anche da altri dispositivi.
 - Fai sempre l'accesso admin dallo stesso dispositivo, oppure importa data.json prima di modificare.
+
+CONTROLLARE LA VERSIONE
+In fondo a ogni pagina c'è scritto "Oratorio San Michele · v3". Se non vedi "v3", il browser sta mostrando una vecchia copia:
+verifica di aver sostituito index.html e sw.js su GitHub e ricarica con Ctrl+F5 (PC).
+
+LOGO
+Il logo non è più incorporato: caricalo da Area personale > Gestione > Impostazioni > Carica logo.
